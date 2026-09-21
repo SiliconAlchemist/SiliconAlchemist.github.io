@@ -1,0 +1,38 @@
+# Text for the existing decorative covers, used when a project has no cover image.
+# Set a project's cover field to show your own screenshot or artwork instead.
+code:
+  filename: create.js
+  snippet: |-
+    const experience = {
+      dimension: 'beyond the screen',
+      curiosity: Infinity,
+      build: () => create()
+    };
+  status: ↗ Exploring new dimensions
+type:
+  eyebrow: FORM / INTERACTION / EXPERIENCE
+  sample: Aa
+  caption: Designed with a different perspective.
+chart:
+  eyebrow: FROM INFORMATION TO INSIGHT
+  title: Find the signal.
+grid:
+  eyebrow: RESEARCH / SYSTEMS / CRAFT
+  title: Made to connect.
+  buttons:
+    - Discover ↗
+    - Explore
+  colors: ['#e9a982', '#c7b4e9', '#7d96c7', '#333b62']
+terminal:
+  path: ~/graphics-lab
+  command: explore the possibilities
+  output: |-
+    Building the volume…
+    Finding the finer details…
+  prompt: A new perspective. _
+scatter:
+  eyebrow: FINDING THE PATTERNS
+  caption: There’s a story in every point.
+app:
+  eyebrow: EXPLORING THE BIGGER PICTURE
+  title: Beyond the screen.

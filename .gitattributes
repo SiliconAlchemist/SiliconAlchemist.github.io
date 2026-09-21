@@ -1,0 +1,7 @@
+# Preserve Blender scenes, exported models and textures byte-for-byte.
+*.blend binary
+*.glb binary
+*.png binary
+*.jpg binary
+*.exr binary
+*.pdf binary
