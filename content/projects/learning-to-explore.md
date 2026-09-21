@@ -1,5 +1,5 @@
 ---
-title: Learning to explore
+title: Curiosity Driven Reinforcement Learning
 collection: data
 order: 3
 draft: false

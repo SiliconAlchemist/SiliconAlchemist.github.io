@@ -2,7 +2,7 @@
 title: Volume rendering
 collection: dev
 order: 2
-draft: false
+draft: true
 summary: Exploring volumetric graphics with MeshPotato and OpenVDB.
 category: COMPUTER GRAPHICS
 tags:

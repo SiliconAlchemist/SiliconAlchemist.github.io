@@ -2,7 +2,7 @@
 title: Data at scale
 collection: data
 order: 1
-draft: false
+draft: true
 summary: 8 TB a day. Fresher insights. A smaller cloud footprint.
 category: WALMART · PROFESSIONAL WORK
 tags:

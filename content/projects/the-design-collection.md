@@ -2,7 +2,7 @@
 title: The design collection
 collection: design
 order: 3
-draft: false
+draft: true
 summary: More visual explorations and creative work on Behance.
 category: BEHANCE · PORTFOLIO
 tags:
