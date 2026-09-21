@@ -18,7 +18,10 @@ function fixture(t: { after: (fn: () => void) => void }) {
   const root = mkdtempSync(join(tmpdir(), 'portfolio-content-'));
   // Only this explicitly created temporary directory is removed.
   t.after(() => rmSync(root, { recursive: true, force: true }));
-  cpSync('content', join(root, 'content'), { recursive: true });
+  // Fixed sample content: editorial changes must not change test expectations.
+  cpSync(new URL('./fixtures/content/', import.meta.url), join(root, 'content'), {
+    recursive: true,
+  });
   mkdirSync(join(root, 'public/models'), { recursive: true });
   mkdirSync(join(root, 'public/projects/solid-textures'), {
     recursive: true,
@@ -65,7 +68,7 @@ test('shows shared projects in both collections with one story', (t) => {
   const content = loadContent(fixture(t));
   assert.deepEqual(
     Object.values(content.collections).map((c) => c.projects.length),
-    [6, 6, 5],
+    [3, 2, 3],
   );
   const kalakriti = content.collections.design.projects[0];
   assert.equal(kalakriti.id, 'kalakriti');
@@ -110,7 +113,7 @@ test('discovers added projects, excludes drafts, sorts, moves, renames and remov
     'utf8',
   );
   writeFileSync(file, template);
-  assert.equal(loadContent(root).collections.design.projects.length, 6);
+  assert.equal(loadContent(root).collections.design.projects.length, 2);
   assert.doesNotMatch(JSON.stringify(loadContent(root)), /Your project title/);
   const published = template
     .replace('draft: true', 'draft: false')
@@ -132,7 +135,28 @@ test('discovers added projects, excludes drafts, sorts, moves, renames and remov
     'renamed-project',
   );
   unlinkSync(renamed);
-  assert.equal(loadContent(root).collections.dev.projects.length, 6);
+  assert.equal(loadContent(root).collections.dev.projects.length, 3);
+});
+
+test('drafting an existing shared project hides it from both collections', (t) => {
+  const root = fixture(t);
+  const file = join(root, 'content/projects/precise-orbits.md');
+  const original = readFileSync(file, 'utf8');
+  const before = loadContent(root);
+  writeFileSync(file, original.replace('draft: false', 'draft: true'));
+  const drafted = loadContent(root);
+  for (const collection of ['dev', 'data'] as const) {
+    assert.deepEqual(
+      drafted.collections[collection].projects.map((project) => project.id),
+      before.collections[collection].projects
+        .filter((project) => project.id !== 'precise-orbits')
+        .map((project) => project.id),
+    );
+  }
+  assert.doesNotMatch(JSON.stringify(drafted), /Shared orbit sample story/);
+  assert.deepEqual(drafted.collections.design, before.collections.design);
+  writeFileSync(file, original);
+  assert.deepEqual(loadContent(root), before);
 });
 
 test('accepts multiple resource links and cover images; flags missing assets by filename', (t) => {

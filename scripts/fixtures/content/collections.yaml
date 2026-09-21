@@ -1,0 +1,28 @@
+# Collection labels, headings, colors, and moon captions. Keep the dev/design/data keys.
+dev:
+  label: "Dev"
+  title: "Built from curiosity"
+  description: "From immersive graphics to intelligent systems. Ideas made real."
+  number: "01"
+  color: "#a9c9ff"
+  moonCaption: "Logic & possibility"
+  exploreLabel: "Explore Dev projects"
+  orbitLabel: "Dev orbit"
+design:
+  label: "Design"
+  title: "Beyond the screen"
+  description: "Experiments in interaction, visual experience, and creative expression."
+  number: "02"
+  color: "#d5b6fa"
+  moonCaption: "Form & feeling"
+  exploreLabel: "Explore Design projects"
+  orbitLabel: "Design orbit"
+data:
+  label: "Data"
+  title: "Finding the signal"
+  description: "From terabytes of customer data to the precise path of a satellite."
+  number: "03"
+  color: "#8be0da"
+  moonCaption: "Patterns & perspective"
+  exploreLabel: "Explore Data projects"
+  orbitLabel: "Data orbit"
