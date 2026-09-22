@@ -19,6 +19,8 @@ cover:
 links:
   - label: View presentation
     url: https://drive.google.com/file/d/1WiELQbD7s5x8bUBLOwZxLLxnExUnAXcr/view?usp=sharing
+  - label: View source code
+    url: https://bit.ly/2Y5Yip0
 note: Joint project with Nishant Grover, building on Pathak et al. (2017). Cover artwork is illustrative; experiments used Pong and MiniWorld.
 ---
 
