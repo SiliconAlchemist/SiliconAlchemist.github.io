@@ -19,7 +19,7 @@ cover:
   position: 50% 50%
 links:
   - label: View presentation
-    url: /projects/fable/fable-presentation.pdf
+    url: https://drive.google.com/file/d/1cyDOm5EgV8fnnYlu1MLayt7O809_kNsT/view?usp=sharing
 note: B.Tech Project at IIIT Delhi with Aditya Singh Rathore, advised by Dr Ojaswa Sharma.
 ---
 

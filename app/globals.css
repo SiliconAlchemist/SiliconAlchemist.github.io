@@ -71,7 +71,7 @@ a:focus-visible {
 }
 .is-day .brand svg, .is-day .brand-dot { color: #376378; }
 .is-day nav button, .is-day .header-note, .is-day .intro > p:not(.eyebrow),
-.is-day .eyebrow, .is-day .moon-label small, .is-day .moon-index,
+.is-day .eyebrow, .is-day .moon-label small,
 .is-day .landscape-caption p, .is-day .site-footer,
 .is-day .scene-controls button, .is-day .rotation-controls,
 .is-day .scene-status, .is-day .back-link, .is-day .collection-heading p:last-child,
@@ -244,12 +244,6 @@ nav button.active > span {
   flex-direction: column;
   align-items: center;
   gap: 4px;
-}
-.moon-label .moon-index {
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: var(--moon-color);
 }
 .moon-label strong {
   font-size: 22px;
@@ -465,7 +459,8 @@ nav button.active > span {
 }
 .project-art {
   position: relative;
-  height: 240px;
+  width: 100%;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   padding: 35px 28px 20px;
   background: linear-gradient(130deg, #34425d, #151d30);
@@ -868,9 +863,6 @@ nav button.active > span {
   .collection {
     margin-top: 50px;
   }
-  .project-art {
-    height: 280px;
-  }
 }
 @media (max-width: 900px) {
   .header-note {
@@ -896,7 +888,6 @@ nav button.active > span {
   }
   .project-art {
     padding: 35px 16px 20px;
-    height: 205px;
   }
   .card-copy {
     padding: 20px 17px;
@@ -952,9 +943,6 @@ nav button.active > span {
   .moon-label strong {
     font-size: 18px;
   }
-  .moon-label .moon-index {
-    font-size: 8px;
-  }
   .moon-label small {
     font-size: 9px;
   }
@@ -1000,7 +988,6 @@ nav button.active > span {
     gap: 22px;
   }
   .project-art {
-    height: 245px;
     padding: 40px 35px 20px;
   }
   .mini-editor {

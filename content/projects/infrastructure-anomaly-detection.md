@@ -11,8 +11,13 @@ tags:
   - Statistical methods
   - LSTM
 art: chart
+cover:
+  src: /projects/oracle/logo.png
+  alt: Oracle logo on a red background.
+  fit: cover
+  position: 50% 50%
 links: []
-note: Review draft based on supplied résumé bullets; implementation details and measurement context await confirmation.
+note: Confidential professional work. Further implementation and operational details cannot be shared under my confidentiality agreement with Oracle.
 ---
 
 ## Context
@@ -29,4 +34,4 @@ My work combined statistical detection with learned time-series modeling in an i
 
 ## Scale and evidence
 
-The supplied résumé records throughput of 25M+ observations per hour. Detection quality, model-serving latency, and the measurement conditions for that throughput still need to be recovered before making more specific performance claims.
+The system processed more than 25 million observations per hour. Further implementation, evaluation, and operational details cannot be shared under my confidentiality agreement with Oracle.

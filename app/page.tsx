@@ -199,7 +199,7 @@ export default function Home() {
           <div className="collection-heading">
             <div>
               <p className="eyebrow">
-                {c.number} / {site.navigation.exploring} {c.label.toUpperCase()}
+                {site.navigation.exploring} {c.label.toUpperCase()}
               </p>
               <h1 ref={title} tabIndex={-1} id="collection-title">
                 {c.title}

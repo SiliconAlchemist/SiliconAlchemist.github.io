@@ -11,8 +11,13 @@ tags:
   - Data pipelines
   - Data freshness
 art: chart
+cover:
+  src: /projects/walmart/logo.png
+  alt: Walmart spark logo on a dark blue background.
+  fit: cover
+  position: 50% 50%
 links: []
-note: Review draft based on supplied résumé bullets; implementation details and measurement context await confirmation.
+note: Confidential professional work. Further implementation and operational details cannot be shared under my confidentiality agreement with Walmart Global Tech.
 ---
 
 ## Context
@@ -32,4 +37,4 @@ The central change was the ingestion path. This case study focuses on that archi
 - Data freshness improved from two days to two hours.
 - Cloud costs decreased by 30%.
 
-The résumé does not establish whether the new pipeline used continuous streaming or scheduled consumption, which data stores were bypassed, or how freshness and cost were measured.
+Further information about the ingestion pattern, internal data stores, migration process, and measurement methodology cannot be shared under my confidentiality agreement with Walmart Global Tech.

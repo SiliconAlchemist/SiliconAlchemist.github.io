@@ -10,12 +10,13 @@ Match the supplied title or subject to this table. Read that project's Markdown 
 | --- | --- | --- | --- |
 | Kalakriti | `kalakriti.md` | design | dev |
 | Fable: A Sketch-Based Animation Platform | `fable.md` | design | dev |
+| DHARE: Response Emotions for Hateful-Meme Detection | `dhare.md` | data | dev |
 | Latency and Visual Task Performance | `seeing-through-latency.md` | design | data |
 | Precise orbits | `precise-orbits.md` | data | dev |
-| ETL at Eight Terabytes a Day | `data-at-scale.md` | data | — |
+| Data and Reporting Platforms at Scale | `data-at-scale.md` | data | dev |
 | Learning to explore | `learning-to-explore.md` | data | — |
 | Stable Learned Bloom Filters | `stable-learned-bloom-filters.md` | data | dev |
-| Natural-Language Cloud Data Exploration | `tool-grounded-ai.md` | dev | — |
+| Cloud Intelligence and Engineering Platforms | `tool-grounded-ai.md` | dev | data |
 | Infrastructure Anomaly Detection | `infrastructure-anomaly-detection.md` | data | dev |
 | Deterministic Cloud Risk Engine | `cloud-risk-engine.md` | data | dev |
 | Coding Agents for APEX Development | `apex-coding-agents.md` | dev | — |

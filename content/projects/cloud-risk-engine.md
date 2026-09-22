@@ -11,8 +11,13 @@ tags:
   - Forecasting
   - Cloud operations
 art: chart
+cover:
+  src: /projects/oracle/logo.png
+  alt: Oracle logo on a red background.
+  fit: cover
+  position: 50% 50%
 links: []
-note: Review draft based on supplied résumé bullets; implementation details and measurement context await confirmation.
+note: Confidential professional work. Further implementation and operational details cannot be shared under my confidentiality agreement with Oracle.
 ---
 
 ## Context
@@ -29,4 +34,4 @@ The design combined several kinds of operational evidence into a risk-prioritiza
 
 ## Coverage
 
-The supplied résumé establishes coverage across three cloud services. It does not specify the scoring formula, calibration method, prediction horizon, alert policy, or measured incident-prevention results.
+The engine covered three cloud services. Further information about its scoring, calibration, prediction horizon, alert policy, and operational results cannot be shared under my confidentiality agreement with Oracle.

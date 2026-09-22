@@ -11,8 +11,13 @@ tags:
   - APIs
   - Full-stack development
 art: code
+cover:
+  src: /projects/walmart/logo.png
+  alt: Walmart spark logo on a dark blue background.
+  fit: cover
+  position: 50% 50%
 links: []
-note: Review draft based on supplied résumé bullets; implementation details and measurement context await confirmation.
+note: Confidential professional work. Further implementation and operational details cannot be shared under my confidentiality agreement with Walmart Global Tech.
 ---
 
 ## Context
@@ -29,4 +34,4 @@ My ownership spanned how users would move through the product and the implementa
 
 ## Delivery
 
-The supplied résumé supports end-to-end implementation ownership and a first release within two months. The audience, report types, technology stack, launch scope, adoption, and subsequent outcomes remain to be recovered.
+I owned the first release across the data, API, and frontend layers and delivered it within two months. Further information about its users, reports, technology stack, launch scope, and adoption cannot be shared under my confidentiality agreement with Walmart Global Tech.

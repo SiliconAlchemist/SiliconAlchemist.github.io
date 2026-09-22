@@ -10,8 +10,13 @@ tags:
   - Coding agents
   - Developer workflow
 art: code
+cover:
+  src: /projects/oracle/logo.png
+  alt: Oracle logo on a red background.
+  fit: cover
+  position: 50% 50%
 links: []
-note: Review draft based on supplied résumé bullets; implementation details and measurement context await confirmation.
+note: Confidential professional work. Further implementation and operational details cannot be shared under my confidentiality agreement with Oracle.
 ---
 
 ## Context
@@ -28,4 +33,4 @@ This project concerns the development workflow around the platforms rather than 
 
 ## Reported result
 
-The supplied résumé reports a 50% time reduction. The baseline, tasks included, measurement period, and whether the figure was measured or estimated need clarification before the result is presented as a rigorously evaluated productivity improvement.
+The integration reduced development and maintenance time by 50%. Further information about the workflow, tasks, measurement process, and internal platform cannot be shared under my confidentiality agreement with Oracle.

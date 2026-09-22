@@ -15,7 +15,8 @@ type Props = {
   onReady: () => void;
   onError: () => void;
 };
-const ids: World[] = ['dev', 'design', 'data'];
+// The array order maps directly to the left, centre, and right moon positions.
+const ids: World[] = ['design', 'dev', 'data'];
 export default function NightScene(props: Props) {
   const host = useRef<HTMLDivElement>(null),
     labels = useRef<(HTMLButtonElement | null)[]>([]),
@@ -690,7 +691,6 @@ export default function NightScene(props: Props) {
           }}
         >
           <span className="moon-text">
-            <span className="moon-index">{collections[id].number}</span>
             <strong>
               {collections[id].label}
               <span>↗</span>
