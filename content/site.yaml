@@ -1,6 +1,6 @@
 # Shared copy, links, and image paths. See content/README.md for editing help.
 metadata:
-  title: Shrikant Garg — Systems. Stories. Signals.
+  title: Welcome Traveler — Shrikant's Island
   description: An interactive universe of development, design, and data by Shrikant Garg.
   language: en
   favicon: /favicon.svg
@@ -17,10 +17,10 @@ contact:
   url: mailto:shrikantgarg2@gmail.com
   newTab: false
 intro:
-  eyebrow: THE UNIVERSE OF SHRIKANT GARG
-  title: Systems. Stories.
-  emphasis: Signals.
-  description: Code, craft, and curiosity. Pick a moon to explore.
+  eyebrow: Welcome Traveler,
+  title: You've found Shrikant's Island.
+  emphasis: ""
+  description: Three Moons light the way. Pick a moon to explore further. The house is where you'll find my story.
   # Optional image displayed below the introduction:
   # image:
   #   src: /images/portrait.jpg

@@ -8,9 +8,11 @@ import { site } from 'virtual:portfolio-content';
 import { fitLandscape, moonLayout } from './scene-layout';
 import { createIslandControls } from './island-controls';
 type Props = {
+  onOpenProfile: () => void;
   world: World | null;
   paused: boolean;
   day: boolean;
+  dayProgress: number;
   onSelect: (w: World) => void;
   onReady: () => void;
   onError: () => void;
@@ -18,6 +20,7 @@ type Props = {
 // The array order maps directly to the left, centre, and right moon positions.
 const ids: World[] = ['design', 'dev', 'data'];
 export default function NightScene(props: Props) {
+  const houseButton = useRef<HTMLButtonElement>(null);
   const host = useRef<HTMLDivElement>(null),
     labels = useRef<(HTMLButtonElement | null)[]>([]),
     state = useRef(props),
@@ -166,6 +169,8 @@ export default function NightScene(props: Props) {
       color: 0xfffdf2,
       emissive: 0xb4d5e5,
       emissiveIntensity: 0.45,
+      transparent: true,
+      opacity: 0,
     });
     const cloudAnchors = [
       [-10, 7, -20], [12, 10, -24], [-8, 20, -35],
@@ -459,36 +464,37 @@ export default function NightScene(props: Props) {
     const point = new THREE.Vector3(),
       targetPosition = new THREE.Vector3(),
       targetLook = new THREE.Vector3();
+    const dayFog = new THREE.Color(0xa6d9eb);
+    const dayAmbient = new THREE.Color(0xd7efff);
+    const dayGround = new THREE.Color(0x789772);
+    const dayMoonlight = new THREE.Color(0xfff3d6);
     function animate(now: number) {
       if (disposed) return;
       frame = requestAnimationFrame(animate);
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
       if (document.hidden) return;
-      const { world, paused, day } = state.current;
+      const { world, paused, day, dayProgress } = state.current;
       // Switching atmosphere is independent of the animation clock, including when paused.
-      if (scene.userData.day !== day) {
-        scene.userData.day = day;
-        (scene.fog as THREE.FogExp2).color.set(day ? 0xa6d9eb : 0x172e3b);
-        ambient.color.set(day ? 0xd7efff : 0xc0ded4);
-        ambient.groundColor.set(day ? 0x789772 : 0x40374d);
-        ambient.intensity = day ? 1.35 : 0.6;
-        moonlight.color.set(day ? 0xfff3d6 : 0xffecc9);
-        moonlight.intensity = day ? 2.6 : 1.65;
-        rim.intensity = day ? 0.65 : 0.5;
-        renderer.toneMappingExposure = day ? 1.15 : 1.05;
-        stars.visible = !day;
-        fireflies.visible = !day;
-        sparks.visible = !day;
-        fireGlow.visible = !day;
-        campLight.visible = !day;
-        clouds.visible = day;
-      }
+      (scene.fog as THREE.FogExp2).color.set(0x172e3b).lerp(dayFog, dayProgress);
+      ambient.color.set(0xc0ded4).lerp(dayAmbient, dayProgress);
+      ambient.groundColor.set(0x40374d).lerp(dayGround, dayProgress);
+      ambient.intensity = 0.6 + 0.75 * dayProgress;
+      moonlight.color.set(0xffecc9).lerp(dayMoonlight, dayProgress);
+      moonlight.intensity = 1.65 + 0.95 * dayProgress;
+      rim.intensity = 0.5 + 0.15 * dayProgress;
+      renderer.toneMappingExposure = 1.05 + 0.1 * dayProgress;
+      stars.material.opacity = 0.8 * (1 - dayProgress);
+      fireflies.material.opacity = 0.65 * (1 - dayProgress);
+      sparks.material.opacity = 0.9 * (1 - dayProgress);
+      clouds.visible = dayProgress > 0;
+      cloudMaterial.opacity = dayProgress;
       // Also apply after asynchronous model loading.
-      paintedIsland?.setDay(day);
-      for (const light of windowLights) light.visible = !day;
+      paintedIsland?.setDay(dayProgress);
       clouds.children.forEach((cloud, i) => {
-        cloud.position.x = cloudAnchors[i][0] + Math.sin(elapsed * 0.035 + i) * 2;
+        const side = i % 2 === 0 ? -1 : 1;
+        cloud.position.x = cloudAnchors[i][0] + Math.sin(elapsed * 0.035 + i) * 2
+          + (paused ? 0 : side * 65 * (1 - dayProgress));
       });
       if (!paused) elapsed += dt;
       const selected = world ? ids.indexOf(world) : -1;
@@ -568,11 +574,31 @@ export default function NightScene(props: Props) {
         }
       });
       island.position.y = islandY + Math.sin(elapsed * 0.35) * 0.07;
+      // Project the house socket into screen space so its accessible target
+      // follows the same rotation, camera motion, and zoom as the island.
+      if (houseButton.current) {
+        const button = houseButton.current;
+        if (paintedIsland && !world) {
+          island.updateWorldMatrix(true, false);
+          point.copy(paintedIsland.house).add(new THREE.Vector3(0, 0.65, 0));
+          island.localToWorld(point);
+          const distance = camera.position.distanceTo(point);
+          const size = Math.max(44, Math.min(160,
+            (1.65 * island.scale.x * height) /
+              (distance * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)))));
+          point.project(camera);
+          button.style.left = `${(point.x * 0.5 + 0.5) * width}px`;
+          button.style.top = `${(-point.y * 0.5 + 0.5) * height}px`;
+          button.style.width = `${size}px`;
+          button.style.height = `${size}px`;
+          button.style.visibility = point.z >= -1 && point.z <= 1 ? 'visible' : 'hidden';
+        } else button.style.visibility = 'hidden';
+      }
       campLight.intensity =
         (2 + Math.sin(elapsed * 9) * 0.3 + Math.sin(elapsed * 17) * 0.2) *
-        Math.pow(island.scale.x, 1.8);
+        Math.pow(island.scale.x, 1.8) * (1 - dayProgress);
       for (const light of windowLights)
-        light.intensity = 1.1 * Math.pow(island.scale.x, 1.3);
+        light.intensity = 1.1 * Math.pow(island.scale.x, 1.3) * (1 - dayProgress);
       paintedIsland?.update(elapsed);
       flames.forEach((flame, i) => {
         flame.scale.set(
@@ -581,7 +607,7 @@ export default function NightScene(props: Props) {
           1 + Math.cos(elapsed * 8 + i) * 0.07,
         );
       });
-      fireGlow.material.opacity = 0.45 + Math.sin(elapsed * 8) * 0.08;
+      fireGlow.material.opacity = (0.45 + Math.sin(elapsed * 8) * 0.08) * (1 - dayProgress);
       for (let i = 0; i < 45; i++) {
         const p = (elapsed * 0.35 + i * 0.173) % 1;
         sparkArr[i * 3] =
@@ -634,6 +660,15 @@ export default function NightScene(props: Props) {
   }, []);
   return (
     <div className="scene" ref={host}>
+      <button
+        ref={houseButton}
+        className="house-profile-button"
+        style={{ visibility: 'hidden' }}
+        aria-label="Visit Shrikant's house: experience and résumé"
+        onClick={props.onOpenProfile}
+      >
+        <span>My Story</span>
+      </button>
       <div className="rotation-controls" hidden={!!props.world}>
         <span className="view-hint">{site.scene.hint}</span>
         <div className="zoom-controls" role="group" aria-label={site.scene.zoomGroup}>

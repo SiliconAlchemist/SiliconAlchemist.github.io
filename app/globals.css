@@ -64,10 +64,19 @@ a:focus-visible {
 .universe.is-day {
   color: #193c50;
   color-scheme: light;
-  background: linear-gradient(180deg, #72bde6 0%, #b4e0ee 58%, #e5f0dc 100%);
 }
-.is-day .vignette {
-  background: linear-gradient(#8bcced20, transparent 35%, transparent 75%, #dcebcf55);
+.universe::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, #72bde6 0%, #b4e0ee 58%, #e5f0dc 100%);
+  opacity: var(--day-progress, 0);
+}
+.universe, .universe .site-header *, .universe .intro *,
+.universe .moon-text *, .universe .site-footer *,
+.universe .rotation-controls *, .universe .landscape-caption * {
+  transition: color 1.8s ease, background-color 1.8s ease, border-color 1.8s ease;
 }
 .is-day .brand svg, .is-day .brand-dot { color: #376378; }
 .is-day nav button, .is-day .header-note, .is-day .intro > p:not(.eyebrow),
@@ -77,7 +86,7 @@ a:focus-visible {
 .is-day .scene-status, .is-day .back-link, .is-day .collection-heading p:last-child,
 .is-day .project-count, .is-day .collection-links { color: #31586b; }
 .is-day nav button:hover, .is-day nav button.active,
-.is-day .moon-label strong, .is-day .intro h1 em { color: #173b50; }
+.is-day .moon-label strong, .is-day .intro h1 { color: #173b50; }
 .is-day .moon-label .moon-text { text-shadow: 0 1px 12px #e8f7ffb3; }
 .is-day .caption-line, .is-day .control-divider { background: #31586b50; }
 .is-day .zoom-controls { background: #edf8f2d9; border-color: #31586b40; }
@@ -87,9 +96,10 @@ a:focus-visible {
 .is-day .card-copy h2 { color: #193c50; }
 .is-day .card-copy p, .is-day .card-meta { color: #426071; }
 .is-day .collection-heading .eyebrow, .is-day .collection-heading h1 span { color: #31586b; }
-/* Artwork and the dialog retain their own dark palette. */
+/* Artwork retains its own palette. */
 .is-day .project-art { color: #f1eef7; }
 .day-toggle { min-height: 44px; }
+.day-toggle:disabled { cursor: wait; opacity: 0.65; }
 .day-toggle-track { width: 29px; height: 17px; border: 1px solid currentColor; border-radius: 20px; padding: 3px; }
 .day-toggle-track i { display: block; width: 9px; height: 9px; border-radius: 50%; background: currentColor; transition: transform .2s; }
 .day-toggle[aria-checked='true'] .day-toggle-track i { transform: translateX(11px); }
@@ -116,6 +126,7 @@ a:focus-visible {
   height: 100%;
 }
 .vignette {
+  opacity: calc(1 - var(--day-progress, 0));
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -211,10 +222,55 @@ nav button.active > span {
   font-weight: 400;
   margin: 15px 0 13px;
 }
-.intro h1 em {
-  font-family: Georgia, serif;
-  font-weight: 400;
-  color: #d5c3e7;
+.intro .eyebrow {
+  font-family: inherit;
+  font-size: 16px;
+  letter-spacing: 0.3px;
+  color: inherit;
+}
+.house-profile-button {
+  position: fixed;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background: transparent;
+  padding: 0;
+  touch-action: manipulation;
+}
+.house-profile-button span {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #151b2de8;
+  color: #edf0fa;
+  font-size: 12px;
+  box-shadow: 0 3px 14px #0003;
+}
+.house-profile-button:hover span,
+.house-profile-button:focus-visible span {
+  opacity: 1;
+}
+.is-day .house-profile-button span { background: #f3f9f8ed; color: #193c50; }
+.profile-dialog { width: min(800px, calc(100vw - 32px)) !important; max-width: 800px !important; }
+.profile-header { display: flex; align-items: center; gap: 24px; }
+.profile-portrait { width: 136px; height: 160px; flex-shrink: 0; object-fit: cover; object-position: 50% 45%; border-radius: 14px; }
+.profile-header .eyebrow { font-size: 10px; margin: 0 0 10px; }
+.profile-contact { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; font-size: 14px; }
+.profile-contact a { text-decoration: underline; text-underline-offset: 4px; }
+.profile-story h2 { border-bottom: 1px solid #8793ad55; padding-bottom: 8px; }
+.profile-story h3 { font-weight: 600; }
+.profile-story .profile-role { font-size: 14px; margin-top: 4px; }
+@media (max-width: 540px) {
+  .profile-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .profile-portrait { width: 104px; height: 120px; }
 }
 .intro > p:not(.eyebrow) {
   font-size: 14px;
@@ -827,6 +883,36 @@ nav button.active > span {
 .project-resources { display: grid; gap: 10px; }
 .project-resources .project-visit { margin: 0; gap: 16px; }
 .project-visit svg { flex-shrink: 0; }
+/* Dialogs render in a portal, so the day-mode class belongs on the popup itself. */
+.project-dialog.is-day {
+  color-scheme: light;
+  background: #f3f9f8 !important;
+  color: #193c50 !important;
+  border-color: #47667530;
+  --foreground: #193c50;
+  --accent: #deebed;
+  --accent-foreground: #173b50;
+}
+.project-dialog.is-day .dialog-description { color: #426071 !important; }
+.project-dialog.is-day p,
+.project-dialog.is-day li { color: #426071; }
+.project-dialog.is-day .dialog-tags span {
+  color: #31586b;
+  background: #e4eff0;
+  border-color: #47667540;
+}
+.project-dialog.is-day .dialog-note {
+  color: #526b78;
+  border-color: #47667530;
+}
+.project-dialog.is-day .project-visit { background: #31586b; color: #fff; }
+.project-dialog.is-day .project-story a { color: #21647b; }
+.project-dialog.is-day .project-story blockquote { border-color: #719daa; }
+.project-dialog.is-day .project-story pre,
+.project-dialog.is-day .project-story :not(pre) > code { background: #e1ecee; }
+.project-dialog.is-day .project-story td,
+.project-dialog.is-day .project-story th,
+.project-dialog.is-day .project-story hr { border-color: #47667540; }
 .mini-terminal .muted { white-space: pre-line; }
 .mini-editor pre { overflow: hidden; }
 .empty-collection { padding: 30px 0; color: inherit; }

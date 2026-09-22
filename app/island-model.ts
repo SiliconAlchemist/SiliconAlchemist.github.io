@@ -264,11 +264,16 @@ export function prepareIsland(source: THREE.Group) {
     house,
     windowPositions,
     flames,
-    setDay(day: boolean) {
-      daylight.value = day ? 1 : 0;
-      flames.forEach((flame) => { flame.visible = !day; });
+    setDay(progress: number) {
+      daylight.value = progress;
+      flames.forEach((flame) => {
+        flame.visible = progress < 1;
+        const material = flame.material as THREE.MeshBasicMaterial;
+        material.transparent = true;
+        material.opacity = 1 - progress;
+      });
       windows.forEach(({ material, intensity }) => {
-        material.emissiveIntensity = day ? 0 : intensity;
+        material.emissiveIntensity = intensity * (1 - progress);
       });
     },
     update(time: number) {

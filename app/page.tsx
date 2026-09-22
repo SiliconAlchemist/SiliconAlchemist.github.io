@@ -25,15 +25,45 @@ import type {
   ContentLink,
 } from '../scripts/content-schema';
 const NightScene = lazy(() => import('./scene'));
+import { Profile } from './profile';
 
 export default function Home() {
   const [world, setWorld] = useState<World | null>(null);
   const [project, setProject] = useState<Project | null>(null);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [paused, setPaused] = useState(false);
   const [sound, setSound] = useState(false);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
   const [day, setDay] = useState(false);
+  const [dayProgress, setDayProgress] = useState(0);
+  const [themeTransitioning, setThemeTransitioning] = useState(false);
+  const themeFrame = useRef(0);
+  const themeLocked = useRef(false);
+
+  useEffect(() => () => cancelAnimationFrame(themeFrame.current), []);
+
+  function toggleDay() {
+    if (themeLocked.current) return;
+    themeLocked.current = true;
+    setThemeTransitioning(true);
+    const target = day ? 0 : 1;
+    const from = dayProgress;
+    const start = performance.now();
+    const duration = matchMedia('(prefers-reduced-motion: reduce)').matches ? 200 : 1800;
+    setDay(!day);
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = progress * progress * (3 - 2 * progress);
+      setDayProgress(from + (target - from) * eased);
+      if (progress < 1) themeFrame.current = requestAnimationFrame(tick);
+      else {
+        themeLocked.current = false;
+        setThemeTransitioning(false);
+      }
+    };
+    themeFrame.current = requestAnimationFrame(tick);
+  }
   const title = useRef<HTMLHeadingElement>(null);
   const audio = useRef<AudioContext | null>(null);
   const gain = useRef<GainNode | null>(null);
@@ -60,11 +90,11 @@ export default function Home() {
   }, []);
   useEffect(() => {
     const key = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && !project) go(null);
+      if (event.key === 'Escape' && !project && !profileOpen) go(null);
     };
     addEventListener('keydown', key);
     return () => removeEventListener('keydown', key);
-  }, [project]);
+  }, [project, profileOpen]);
   useEffect(() => {
     if (world) {
       const timer = setTimeout(
@@ -111,11 +141,13 @@ export default function Home() {
   return (
     <main
       className={`universe ${world ? 'is-exploring' : ''} ${paused ? 'motion-paused' : ''} ${day ? 'is-day' : ''}`}
-      style={{ '--world-color': c?.color || '#c9bafa' } as React.CSSProperties}
+      style={{ '--world-color': c?.color || '#c9bafa', '--day-progress': dayProgress } as React.CSSProperties}
     >
       <Suspense fallback={null}>
         <NightScene
+          onOpenProfile={() => setProfileOpen(true)}
           day={day}
+          dayProgress={dayProgress}
           world={world}
           paused={paused}
           onSelect={go}
@@ -150,7 +182,7 @@ export default function Home() {
               className={world === id ? 'active' : ''}
               onClick={() => go(id)}
             >
-              <span style={{ background: collections[id].color }} />
+              <span style={{ background: day ? 'currentColor' : collections[id].color, opacity: day ? 1 : undefined }} />
               {collections[id].label}
             </button>
           ))}
@@ -162,7 +194,7 @@ export default function Home() {
           <section className="intro">
             <p className="eyebrow">{site.intro.eyebrow}</p>
             <h1>
-              {site.intro.title} <em>{site.intro.emphasis}</em>
+              {site.intro.title}{site.intro.emphasis && ` ${site.intro.emphasis}`}
             </h1>
             <p>{site.intro.description}</p>
             {site.intro.image && (
@@ -265,7 +297,9 @@ export default function Home() {
             role="switch"
             aria-checked={day}
             aria-label={site.controls.dayMode}
-            onClick={() => setDay(!day)}
+            onClick={toggleDay}
+            disabled={themeTransitioning}
+            aria-busy={themeTransitioning}
           >
             {day ? <Sun size={16} /> : <Moon size={16} />}
             <span>{day ? site.controls.day : site.controls.night}</span>
@@ -297,6 +331,7 @@ export default function Home() {
           <span className="tiny-star">✧</span>
         </span>
       </footer>
+      <Profile open={profileOpen} onOpenChange={setProfileOpen} day={day} />
       <Dialog
         open={!!project}
         onOpenChange={(open) => {
@@ -304,7 +339,7 @@ export default function Home() {
         }}
       >
         <DialogContent
-          className="project-dialog"
+          className={`project-dialog${day ? ' is-day' : ''}`}
           closeLabel={site.controls.close}
         >
           {project && (
