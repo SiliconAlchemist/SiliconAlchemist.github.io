@@ -2,7 +2,7 @@
 title: Kalakriti
 collection: design
 secondaryCollection: dev
-order: 1
+order: 5
 draft: false
 summary: Bringing traditional painting techniques into three dimensions.
 category: IMMERSIVE EXPERIENCE

@@ -11,10 +11,15 @@ Match the supplied title or subject to this table. Read that project's Markdown 
 | Kalakriti | `kalakriti.md` | design | dev |
 | Latency and Visual Task Performance | `seeing-through-latency.md` | design | data |
 | Precise orbits | `precise-orbits.md` | data | dev |
-| Data at scale | `data-at-scale.md` | data | — |
+| ETL at Eight Terabytes a Day | `data-at-scale.md` | data | — |
 | Learning to explore | `learning-to-explore.md` | data | — |
 | Stable Learned Bloom Filters | `stable-learned-bloom-filters.md` | data | dev |
-| Tool-grounded AI | `tool-grounded-ai.md` | dev | — |
+| Natural-Language Cloud Data Exploration | `tool-grounded-ai.md` | dev | — |
+| Infrastructure Anomaly Detection | `infrastructure-anomaly-detection.md` | data | dev |
+| Deterministic Cloud Risk Engine | `cloud-risk-engine.md` | data | dev |
+| Coding Agents for APEX Development | `apex-coding-agents.md` | dev | — |
+| Direct Kafka Ingestion | `kafka-pipeline-modernization.md` | data | dev |
+| Reporting Platform from Journey to Launch | `reporting-platform.md` | dev | design |
 | Volume rendering | `volume-rendering.md` | dev | — |
 | Solid textures | `solid-textures.md` | dev | — |
 | The design collection | `the-design-collection.md` | design | — |

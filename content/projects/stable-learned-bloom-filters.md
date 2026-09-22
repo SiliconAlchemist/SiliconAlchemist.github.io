@@ -5,7 +5,7 @@ secondaryCollection: dev
 order: 4
 draft: false
 summary: Choosing classifiers for approximate membership in streaming data.
-category: IIIT DELHI · MACHINE LEARNING
+category: LEARNED DATA STRUCTURES · MACHINE LEARNING
 tags:
   - Python
   - Bloom filters
@@ -21,8 +21,6 @@ links:
     url: https://drive.google.com/file/d/1HcpcfAngoh7a0mva8I7nIiQwZon9cPEt/view?usp=drive_link
   - label: View source code
     url: https://github.com/SiliconAlchemist/Learned_Stable_Bloom_Filters
-  - label: Watch project walkthrough (IIIT Delhi access)
-    url: https://drive.google.com/drive/folders/1zGIOXhAbt9pIRSp_osdEvYrX38YleBGV?usp=sharing
 ---
 
 ## Overview

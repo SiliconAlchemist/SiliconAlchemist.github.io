@@ -1,24 +1,31 @@
 ---
-title: Tool-grounded AI
+title: Natural-Language Cloud Data Exploration
 collection: dev
 order: 1
-draft: false
-summary: Natural-language exploration for enterprise cloud data.
+draft: true
+summary: "An MCP- and RAG-based platform for investigating incidents and exploring cloud-service data."
 category: ORACLE · PROFESSIONAL WORK
 tags:
-  - Agentic AI
   - MCP
+  - RAG
+  - Natural-language exploration
 art: code
 links: []
-note: Professional work · Details summarized from my résumé.
+note: Review draft based on supplied résumé bullets; implementation details and measurement context await confirmation.
 ---
 
-## About the work
+## Context
 
-At Oracle, I built a natural-language data exploration platform for engineers and executives to investigate incidents and cloud-service data through governed queries.
+Senior Data Systems Software Engineer · Oracle · Bengaluru, Karnataka. Employment period: November 2024–present; exact project dates are not yet established.
 
-## Highlights
+## Overview
 
-- Deterministic tool execution and validated query generation
-- Reusable MCP servers for enterprise integrations
-- An architecture designed to reduce hallucinations
+I built a natural-language data exploration platform at Oracle using MCP integrations and retrieval-augmented generation (RAG). It enabled engineers and executives to investigate incidents and query cloud-service data.
+
+## My contribution
+
+The project brought a natural-language interface together with integrations and retrieved context. Its two stated audiences—engineers and executives—give the case study a clear focus: supporting investigation and data exploration for people with different questions about the same cloud services.
+
+## Scope of this account
+
+MCP, RAG, the platform, and its audiences are supported by the supplied résumé. The retrieval sources, query execution safeguards, model choices, evaluation process, and adoption figures have not yet been confirmed.
