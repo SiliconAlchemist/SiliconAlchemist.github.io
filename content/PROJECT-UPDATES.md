@@ -9,6 +9,7 @@ Match the supplied title or subject to this table. Read that project's Markdown 
 | Project | Markdown filename in `content/projects/` | Primary moon | Secondary moon |
 | --- | --- | --- | --- |
 | Kalakriti | `kalakriti.md` | design | dev |
+| Fable: A Sketch-Based Animation Platform | `fable.md` | design | dev |
 | Latency and Visual Task Performance | `seeing-through-latency.md` | design | data |
 | Precise orbits | `precise-orbits.md` | data | dev |
 | ETL at Eight Terabytes a Day | `data-at-scale.md` | data | — |
