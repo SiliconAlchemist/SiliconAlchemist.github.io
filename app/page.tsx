@@ -229,6 +229,7 @@ export default function Home() {
                     <ContentPicture
                       image={p.cover}
                       className="project-cover"
+                      crop
                       lazy
                     />
                   ) : (
@@ -326,6 +327,7 @@ export default function Home() {
                 <ContentPicture
                   image={project.cover}
                   className="dialog-cover"
+                  crop
                 />
               )}
               {/* HTML is compiled and sanitized by scripts/content-loader.ts. */}
@@ -376,10 +378,12 @@ function ContentAnchor({
 function ContentPicture({
   image,
   className,
+  crop = false,
   lazy = false,
 }: {
   image: ContentImage;
   className: string;
+  crop?: boolean;
   lazy?: boolean;
 }) {
   return (
@@ -388,7 +392,10 @@ function ContentPicture({
       src={image.src}
       alt={image.alt}
       loading={lazy ? 'lazy' : 'eager'}
-      style={{ objectFit: image.fit, objectPosition: image.position }}
+      style={{
+        objectFit: crop ? 'cover' : image.fit,
+        objectPosition: image.position,
+      }}
     />
   );
 }
