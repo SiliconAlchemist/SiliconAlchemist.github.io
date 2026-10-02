@@ -115,6 +115,34 @@ a:focus-visible {
   .site-footer .footer-right { display: none; }
   .site-footer .scene-controls { width: 100%; justify-content: space-between; }
 }
+.scene-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: radial-gradient(ellipse at 50% 65%, #253d48 0%, #142338 48%, #0a1426 100%);
+  color: #f1eef7;
+  opacity: 1;
+  transition: opacity 600ms ease;
+}
+.scene-loader.is-ready { opacity: 0; }
+.scene-loader-spinner {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #f1eef726;
+  border-top-color: #f1eef7;
+  border-radius: 50%;
+  animation: loader-spin 800ms linear infinite;
+}
+@keyframes loader-spin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene-loader { transition: none; }
+  .scene-loader-spinner { animation: none; }
+}
 .scene {
   position: fixed;
   inset: 0;

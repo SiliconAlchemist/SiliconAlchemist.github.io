@@ -110,6 +110,7 @@ export default function NightScene(props: Props) {
     const windowLights: THREE.PointLight[] = [];
     let disposed = false,
       modelReady = false,
+      renderedModelFrames = 0,
       islandY = -3.35;
     let paintedIsland: PaintedIsland | undefined;
     const firePosition = new THREE.Vector3(2.8, 1.2, 1.45);
@@ -150,10 +151,11 @@ export default function NightScene(props: Props) {
         }
         modelReady = true;
         resize();
-        state.current.onReady();
       },
       undefined,
-      () => state.current.onError(),
+      () => {
+        if (!disposed) state.current.onError();
+      },
     );
     // Seeded geometry keeps the sky and lunar surfaces consistent on every visit.
     let seed = 8317;
@@ -619,7 +621,19 @@ export default function NightScene(props: Props) {
       sparksGeo.attributes.position.needsUpdate = true;
       fireflies.position.y = Math.sin(elapsed * 0.6) * 0.15;
       stars.rotation.z = Math.sin(elapsed * 0.015) * 0.005;
-      renderer.render(scene, camera);
+      try {
+        renderer.render(scene, camera);
+      } catch {
+        cancelAnimationFrame(frame);
+        state.current.onError();
+        return;
+      }
+      // Allow a complete frame to reach the screen before fading the loader.
+      // Download completion alone does not include GPU upload and first rendering.
+      if (modelReady && renderedModelFrames < 2) {
+        renderedModelFrames += 1;
+        if (renderedModelFrames === 2) state.current.onReady();
+      }
     }
     frame = requestAnimationFrame(animate);
     const fallbackTimer = setTimeout(() => {

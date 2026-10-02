@@ -26,6 +26,7 @@ import type {
 } from '../scripts/content-schema';
 const NightScene = lazy(() => import('./scene'));
 import { Profile } from './profile';
+import { SceneBoundary, SceneLoader } from './scene-loader';
 
 export default function Home() {
   const [world, setWorld] = useState<World | null>(null);
@@ -42,6 +43,21 @@ export default function Home() {
   const themeLocked = useRef(false);
 
   useEffect(() => () => cancelAnimationFrame(themeFrame.current), []);
+
+  // This also covers a stalled scene import, before its own model timeout starts.
+  useEffect(() => {
+    if (ready) return;
+    const timer = setTimeout(() => {
+      setFailed(true);
+      setReady(true);
+    }, 30000);
+    return () => clearTimeout(timer);
+  }, [ready]);
+
+  function sceneFailed() {
+    setFailed(true);
+    setReady(true);
+  }
 
   function toggleDay() {
     if (themeLocked.current) return;
@@ -96,14 +112,14 @@ export default function Home() {
     return () => removeEventListener('keydown', key);
   }, [project, profileOpen]);
   useEffect(() => {
-    if (world) {
+    if (world && ready) {
       const timer = setTimeout(
         () => title.current?.focus(),
         paused ? 20 : 1100,
       );
       return () => clearTimeout(timer);
     }
-  }, [world, paused]);
+  }, [world, paused, ready]);
 
   function go(id: World | null) {
     setWorld(id);
@@ -139,25 +155,30 @@ export default function Home() {
 
   const c = world ? collections[world] : null;
   return (
-    <main
+    <>
+      <SceneLoader ready={ready} />
+      <main
+      inert={!ready}
+      aria-busy={!ready}
       className={`universe ${world ? 'is-exploring' : ''} ${paused ? 'motion-paused' : ''} ${day ? 'is-day' : ''}`}
       style={{ '--world-color': c?.color || '#c9bafa', '--day-progress': dayProgress } as React.CSSProperties}
     >
-      <Suspense fallback={null}>
-        <NightScene
-          onOpenProfile={() => setProfileOpen(true)}
-          day={day}
-          dayProgress={dayProgress}
-          world={world}
-          paused={paused}
-          onSelect={go}
-          onReady={() => setReady(true)}
-          onError={() => {
-            setFailed(true);
-            setReady(true);
-          }}
-        />
-      </Suspense>
+      {!failed && (
+        <SceneBoundary onError={sceneFailed}>
+          <Suspense fallback={null}>
+            <NightScene
+              onOpenProfile={() => setProfileOpen(true)}
+              day={day}
+              dayProgress={dayProgress}
+              world={world}
+              paused={paused}
+              onSelect={go}
+              onReady={() => setReady(true)}
+              onError={sceneFailed}
+            />
+          </Suspense>
+        </SceneBoundary>
+      )}
       <div className="vignette" />
       <header className="site-header">
         <button
@@ -204,9 +225,9 @@ export default function Home() {
               />
             )}
           </section>
-          {(!ready || failed) && (
+          {failed && (
             <div className="scene-status" role="status">
-              {failed ? site.scene.unavailable : site.scene.loading}
+              {site.scene.unavailable}
             </div>
           )}
           <div className="landscape-caption">
@@ -386,7 +407,8 @@ export default function Home() {
           )}
         </DialogContent>
       </Dialog>
-    </main>
+      </main>
+    </>
   );
 }
 
