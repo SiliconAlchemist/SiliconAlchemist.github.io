@@ -1,10 +1,17 @@
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const output = join(process.cwd(), 'dist', 'client');
+// Vinext exports /story as story.html. Supply a directory index so GitHub Pages
+// serves the shareable /story/ URL without requiring a server redirect.
+assert.ok(existsSync(join(output, 'story.html')), 'Missing story page');
+mkdirSync(join(output, 'story'), { recursive: true });
+copyFileSync(join(output, 'story.html'), join(output, 'story', 'index.html'));
+
 for (const file of [
   'index.html',
+  'story/index.html',
   '404.html',
   'favicon.svg',
   'resume.pdf',
