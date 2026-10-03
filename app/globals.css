@@ -287,7 +287,42 @@ nav button.active > span {
   opacity: 1;
 }
 .is-day .house-profile-button span { background: #f3f9f8ed; color: #193c50; }
-.profile-dialog { width: min(800px, calc(100vw - 32px)) !important; max-width: 800px !important; }
+.story-page {
+  width: min(880px, 100%);
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: 32px clamp(16px, 4vw, 40px) 64px;
+}
+.story-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  color: #b3bed5;
+  font-size: 14px;
+}
+.story-navigation a { padding: 12px 0; }
+.story-navigation a:hover { color: #fff; }
+.story-content {
+  padding: clamp(20px, 4vw, 36px);
+  background: #151b2d;
+  border: 1px solid #ffffff22;
+  border-radius: 18px;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.story-content .profile-header { margin-bottom: 32px; }
+.story-content .profile-header > div { min-width: 0; }
+.story-content .profile-story p,
+.story-content .profile-story li { color: #aeb9cf; }
+.story-content .profile-story ul { list-style: disc; }
+.story-content .dialog-note {
+  border-top: 1px solid #ffffff15;
+  padding-top: 17px;
+  font-size: 12px;
+}
 .profile-header { display: flex; align-items: center; gap: 24px; }
 .profile-portrait { width: 136px; height: 160px; flex-shrink: 0; object-fit: cover; object-position: 50% 45%; border-radius: 14px; }
 .profile-header .eyebrow { font-size: 10px; margin: 0 0 10px; }

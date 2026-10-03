@@ -1,19 +1,15 @@
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { site } from 'virtual:portfolio-content';
 
-export function Profile({ open, onOpenChange, day }: {
-  open: boolean; onOpenChange: (open: boolean) => void; day: boolean;
-}) {
+export function Profile() {
   const resume = site.links.find((link) => link.label === 'Résumé');
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className={`project-dialog profile-dialog${day ? ' is-day' : ''}`} closeLabel="Close profile">
+    <article className="story-content">
         <header className="profile-header">
           <img className="profile-portrait" src="/images/portrait-self.png" alt="Shrikant Garg" />
           <div>
             <p className="eyebrow">THE PERSON BEHIND THE ISLAND</p>
-            <DialogTitle className="dialog-title">Shrikant Garg</DialogTitle>
-            <DialogDescription className="dialog-description">Senior Data Systems Software Engineer</DialogDescription>
+            <h1 className="dialog-title">Shrikant Garg</h1>
+            <p className="dialog-description">Senior Data Systems Software Engineer</p>
             <div className="profile-contact">
               <a href="mailto:shrikantgarg2@gmail.com">Email</a>
               <a href="https://github.com/SiliconAlchemist" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
@@ -61,7 +57,6 @@ export function Profile({ open, onOpenChange, day }: {
             <li>Second place in the Paytm Build for India Hackathon.</li>
           </ul>
         </div>
-      </DialogContent>
-    </Dialog>
+    </article>
   );
 }

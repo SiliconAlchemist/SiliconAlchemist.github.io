@@ -25,13 +25,11 @@ import type {
   ContentLink,
 } from '../scripts/content-schema';
 const NightScene = lazy(() => import('./scene'));
-import { Profile } from './profile';
 import { SceneBoundary, SceneLoader } from './scene-loader';
 
 export default function Home() {
   const [world, setWorld] = useState<World | null>(null);
   const [project, setProject] = useState<Project | null>(null);
-  const [profileOpen, setProfileOpen] = useState(false);
   const [paused, setPaused] = useState(false);
   const [sound, setSound] = useState(false);
   const [ready, setReady] = useState(false);
@@ -93,6 +91,9 @@ export default function Home() {
   useEffect(() => {
     const sync = () => {
       const id = location.hash.slice(1);
+      if (id === 'story') {
+        history.replaceState({}, '', location.pathname + location.search);
+      }
       setWorld(Object.hasOwn(collections, id) ? (id as World) : null);
       setProject(null);
     };
@@ -106,11 +107,11 @@ export default function Home() {
   }, []);
   useEffect(() => {
     const key = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && !project && !profileOpen) go(null);
+      if (event.key === 'Escape' && !project) go(null);
     };
     addEventListener('keydown', key);
     return () => removeEventListener('keydown', key);
-  }, [project, profileOpen]);
+  }, [project]);
   useEffect(() => {
     if (world && ready) {
       const timer = setTimeout(
@@ -124,7 +125,7 @@ export default function Home() {
   function go(id: World | null) {
     setWorld(id);
     setProject(null);
-    history.pushState({}, '', id ? `#${id}` : location.pathname);
+    history.pushState({}, '', id ? `#${id}` : location.pathname + location.search);
   }
   async function toggleSound() {
     if (!audio.current) {
@@ -167,7 +168,6 @@ export default function Home() {
         <SceneBoundary onError={sceneFailed}>
           <Suspense fallback={null}>
             <NightScene
-              onOpenProfile={() => setProfileOpen(true)}
               day={day}
               dayProgress={dayProgress}
               world={world}
@@ -197,7 +197,7 @@ export default function Home() {
           </span>
         </button>
         <nav aria-label={site.navigation.label}>
-          {(Object.keys(collections) as World[]).map((id) => (
+          {(['design', 'dev', 'data'] as World[]).map((id) => (
             <button
               key={id}
               className={world === id ? 'active' : ''}
@@ -352,7 +352,6 @@ export default function Home() {
           <span className="tiny-star">✧</span>
         </span>
       </footer>
-      <Profile open={profileOpen} onOpenChange={setProfileOpen} day={day} />
       <Dialog
         open={!!project}
         onOpenChange={(open) => {

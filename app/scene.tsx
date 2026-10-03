@@ -8,7 +8,6 @@ import { site } from 'virtual:portfolio-content';
 import { fitLandscape, moonLayout } from './scene-layout';
 import { createIslandControls } from './island-controls';
 type Props = {
-  onOpenProfile: () => void;
   world: World | null;
   paused: boolean;
   day: boolean;
@@ -20,7 +19,7 @@ type Props = {
 // The array order maps directly to the left, centre, and right moon positions.
 const ids: World[] = ['design', 'dev', 'data'];
 export default function NightScene(props: Props) {
-  const houseButton = useRef<HTMLButtonElement>(null);
+  const houseButton = useRef<HTMLAnchorElement>(null);
   const host = useRef<HTMLDivElement>(null),
     labels = useRef<(HTMLButtonElement | null)[]>([]),
     state = useRef(props),
@@ -674,15 +673,15 @@ export default function NightScene(props: Props) {
   }, []);
   return (
     <div className="scene" ref={host}>
-      <button
+      <a
         ref={houseButton}
         className="house-profile-button"
         style={{ visibility: 'hidden' }}
         aria-label="Visit Shrikant's house: experience and résumé"
-        onClick={props.onOpenProfile}
+        href="/story/"
       >
         <span>My Story</span>
-      </button>
+      </a>
       <div className="rotation-controls" hidden={!!props.world}>
         <span className="view-hint">{site.scene.hint}</span>
         <div className="zoom-controls" role="group" aria-label={site.scene.zoomGroup}>
