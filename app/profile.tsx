@@ -44,7 +44,7 @@ export function Profile() {
           <p>Developed guidelines for selecting classifiers for stable learned Bloom filters across different use cases using Python.</p>
           <h2>Education</h2>
           <h3>Indraprastha Institute of Information Technology Delhi</h3>
-          <p>Bachelor of Technology in Computer Science and Design<br />2018–2022 · New Delhi, Delhi NCR<br /><strong>GPA: 8.35 / 10.00</strong></p>
+          <p>Bachelor of Technology in Computer Science and Design<br />2018–2022 · New Delhi, Delhi NCR</p>
           <p><strong>Relevant coursework:</strong> Machine Learning, Reinforcement Learning, Computer Graphics, Data Structures and Algorithms, Object-Oriented Programming, Analysis and Design of Algorithms, Linear Algebra, Probability and Statistics, Network Science, Database Management.</p>
           <h2>Technical skills</h2>
           <p><strong>Languages:</strong> Python, Java, C++, SQL, Scala, JavaScript, Bash</p>
